@@ -1,23 +1,33 @@
-astroCopy code
 ---
-// src/pages/posts/[id].astro
-const { id } = Astro.params;
-const postRes = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-const post = await postRes.json();
+// Importa los módulos necesarios
+import PostCard from '../components/PostCard.astro';
+import type {Post} from '../types/Post';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro'
+import '/public/global.css'
+// Obtiene los posts del API
+const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+const posts = await res.json();
 ---
+
 
 <html>
 <head>
-  <title>{post.title}</title>
+  <title>Mi Blog en Astro</title>
 </head>
+<Header></Header>
 <body>
-  <div class="container">
-    <article>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-      <a href="/">Volver al inicio</a>
-    </article>
+	<div class="container">
+<h1>Bienvenido a mi <span class="blog">Blog</span></h1>
+  <div class="contblog">
+    {posts.map((post:Post) => (
+      <PostCard key={post.id} post={post} />
+    ))}
   </div>
+</div>
 </body>
+<Footer></Footer>
+</html>
+
 </html>
 
